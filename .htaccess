@@ -1,0 +1,8 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+ErrorDocument 404 /MyFramework/errors/notfound
+
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

@@ -1,21 +1,26 @@
 <?php
 
+use Application\Home\HomeCore;
+use Components\Application;
+use Components\Middlewares\CsrfMiddleware;
+use Components\Middlewares\MethodMiddleware;
+use Components\Middlewares\NotFoundMiddleware;
+use Components\Middlewares\RouterMiddleware;
+use Components\Middlewares\DispatcherMiddleware;
+use GuzzleHttp\Psr7\ServerRequest;
+
 require 'vendor/autoload.php';
 
-$cores = [
-    \App\Blog\BlogModule::class
-];
+$app = (new Application('Components/Config.php'))
+    ->addCore(HomeCore::class)
 
-$builder = new \DI\ContainerBuilder();
-$builder->addDefinitions(dirname(__DIR__) . '/config/config.php');
-foreach ($cores as $core) {
-    if ($core::DEFINITIONS) {
-        $builder->addDefinitions($core::DEFINITIONS);
-    }
+    //->pipe(TrailingSlashMiddleware::class)
+    ->pipe(MethodMiddleware::class)
+    ->pipe(RouterMiddleware::class)
+    ->pipe(DispatcherMiddleware::class)
+    ->pipe(NotFoundMiddleware::class);
+
+if (php_sapi_name() !== "cli") {
+    $response = $app->run(ServerRequest::fromGlobals());
+    \Http\Response\send($response);
 }
-$builder->addDefinitions(dirname(__DIR__) . '/config.php');
-$container = $builder->build();
-
-$app = new \Components\Application($container, $cores);
-$response = $app->run(\GuzzleHttp\Psr7\ServerRequest::fromGlobals());
-\Http\Response\send($response);
