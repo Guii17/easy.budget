@@ -3,11 +3,12 @@
 namespace Application\HomeBundle;
 
 use Application\HomeBundle\Actions\HomepageAction;
+use Components\System\Base\BaseBundle;
 use Components\System\Renderer\IRenderer;
 use Components\System\Router\Router;
 use Psr\Container\ContainerInterface;
 
-class HomeBundle
+class HomeBundle extends BaseBundle
 {
     const DEFINITIONS = __DIR__ . '/Resources/Config/Config.php';
     /**
@@ -23,7 +24,7 @@ class HomeBundle
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->container->get(IRenderer::class)->addPath('home', __DIR__.'/Resources/Views');
+        $this->container->get(IRenderer::class)->addPath('home', __DIR__ . '/Resources/Templates');
         $router = $this->container->get(Router::class);
         $router->get($this->container->get('home.prefix'), HomepageAction::class, 'home.index');
     }

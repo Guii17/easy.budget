@@ -8,14 +8,13 @@
 
 namespace Application\HomeBundle\Actions;
 
-
 use Application\HomeBundle\Responders\HomepageResponder;
 
 class HomepageAction
 {
 
     /**
-     * @var HomepageResponder
+     * @var AdminResponder
      */
     private $responder;
 

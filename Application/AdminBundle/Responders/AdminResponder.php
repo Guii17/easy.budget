@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 16/03/2019
- * Time: 23:40
- */
 
-namespace Application\HomeBundle\Responders;
+namespace Application\AdminBundle\Responders;
 
 use Components\System\Renderer\IRenderer;
 
-class HomepageResponder
+class AdminResponder
 {
     /**
      * @var IRenderer
@@ -32,8 +26,8 @@ class HomepageResponder
      * @param  $data
      * @return string
      */
-    public function sendHome($data)
+    public function sendAdmin($data)
     {
-        return $this->renderer->render('@home/index', compact('data'));
+        return $this->renderer->render('@admin/index', compact('data'));
     }
 }

@@ -6,10 +6,10 @@
  * Time: 22:07
  */
 
-namespace Components;
+namespace Components\System\Base;
 
 
-class Core
+class BaseBundle
 {
     const DEFINITIONS = null;
     const MIGRATIONS = null;

@@ -2,7 +2,6 @@
 
 use Components\Manage\Session\ISession;
 use Components\Manage\Session\PHPSession;
-use Components\System\Renderer\Extensions\CsrfExtension;
 use Components\System\Renderer\Extensions\FlashExtension;
 use Components\System\Renderer\Extensions\FormBuilderExtension;
 use Components\System\Renderer\Extensions\PaginateExtension;
@@ -34,18 +33,16 @@ return array(
             ]
         );
     },
-    'views.path' => dirname(__DIR__).'/Web/FrontDesign',
+    'views.path' => dirname(__DIR__) . '/Public/FrontDesign/Template',
     'twig.extensions' => array(
         \DI\get(RouterTwigExtension::class),
         \DI\get(PaginateExtension::class),
         \DI\get(FlashExtension::class),
         \DI\get(TextExtension::class),
         \DI\get(TimeExtension::class),
-        \DI\get(CsrfExtension::class),
         \DI\get(FormBuilderExtension::class),
     ),
     ISession::class => object(PHPSession::class),
     Router::class => object(),
-    IRenderer::class => factory(TwigRendererFactory::class),
-    \Components\System\Middlewares\CsrfMiddleware::class => object()->constructor(\DI\get(ISession::class)),
+    IRenderer::class => factory(TwigRendererFactory::class)
 );

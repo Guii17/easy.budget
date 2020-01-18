@@ -5,6 +5,7 @@ namespace Components;
 use Application\AppKernel;
 use Components\System\Middlewares\RoutePrefixedMiddleware;
 use DI\ContainerBuilder;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -53,15 +54,11 @@ class Application
     public function process(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->getMiddleware();
-        if ($middleware === null) {
+        if (is_null($middleware)) {
             throw new \Exception('Aucun middleware n\'a intercepté cette requête');
-        }
-
-        if (is_callable($middleware)) {
+        } elseif (is_callable($middleware)) {
             return call_user_func_array($middleware, [$request, [$this, 'process']]);
-        }
-
-        if ($middleware instanceof MiddlewareInterface) {
+        } elseif ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }
     }
@@ -71,14 +68,13 @@ class Application
         foreach ($this->bundles as $bundle) {
             $this->getContainer()->get($bundle);
         }
-
-        try {
-            return $this->process($request);
-        } catch (\Exception $e) {
-        }
+        return $this->process($request);
     }
 
-    public function getContainer(): ContainerInterface
+    /**
+     * @return ContainerInterface
+     */
+    private function getContainer(): ContainerInterface
     {
         if ($this->container === null) {
             $builder = new ContainerBuilder();
@@ -90,23 +86,20 @@ class Application
             }
             $this->container = $builder->build();
         }
-
         return $this->container;
     }
 
+    /**
+     * @return object
+     */
     private function getMiddleware()
     {
         if (array_key_exists($this->index, $this->middlewares)) {
-            if (is_string($this->middlewares[$this->index])) {
-                $middleware = $this->container->get($this->middlewares[$this->index]);
-            } else {
-                $middleware = $this->middlewares[$this->index];
-            }
-            ++$this->index;
-
+            $middleware = $this->container->get($this->middlewares[$this->index]);
+            $this->index++;
             return $middleware;
         }
-
         return null;
     }
+
 }

@@ -8,8 +8,8 @@
 
 namespace Application;
 
+use Application\AdminBundle\AdminBundle;
 use Application\HomeBundle\HomeBundle;
-use Application\UsersBundle\UsersBundle;
 use Twig\Loader\LoaderInterface;
 
 class AppKernel
@@ -20,8 +20,8 @@ class AppKernel
     public function registerBundles()
     {
         $bundles = array(
-            HomeBundle::class,
-            UsersBundle::class
+            AdminBundle::class,
+            HomeBundle::class
         );
 
         return $bundles;
