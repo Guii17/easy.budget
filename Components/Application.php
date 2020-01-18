@@ -2,121 +2,111 @@
 
 namespace Components;
 
+use Application\AppKernel;
+use Components\System\Middlewares\RoutePrefixedMiddleware;
 use DI\ContainerBuilder;
-use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Components\Router\Router;
 
 class Application
 {
+    private $bundles = [];
 
-    /**
-     * List of modules
-     * @var array
-     */
-    private $cores = [];
-    /**
-     * @var string
-     */
     private $definition;
 
-    /**
-     * @var ContainerInterface
-     */
     private $container;
 
-    /**
-     * @var string[]
-     */
     private $middlewares;
 
-    /**
-     * @var int
-     */
     private $index = 0;
 
-    public function __construct(string $definition)
-    {
+    private $listBundles;
 
+    public function __construct(string $definition, array $listBundles = [])
+    {
         $this->definition = $definition;
+        $this->listBundles = $listBundles;
+        foreach($this->listBundles as $oneBundle) {
+            $this->addBundle($oneBundle);
+        }
     }
 
-    /**
-     * Rajoute un module à l'application
-     *
-     * @param string $module
-     * @return App
-     */
-    public function addCore(string $core): self
+    public function addBundle(string $bundle): self
     {
-        $this->cores[] = $core;
+        $this->bundles[] = $bundle;
+
         return $this;
     }
 
-    /**
-     * Ajoute un middleware
-     *
-     * @param string $middleware
-     * @return App
-     */
-    public function pipe(string $middleware): self
+    public function pipe(string $routePrefix, ?string $middleware = null): self
     {
-        $this->middlewares[] = $middleware;
+        if ($middleware === null) {
+            $this->middlewares[] = $routePrefix;
+        } else {
+            $this->middlewares[] = new RoutePrefixedMiddleware($this->getContainer(), $routePrefix, $middleware);
+        }
+
         return $this;
     }
 
     public function process(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->getMiddleware();
-        if (is_null($middleware)) {
+        if ($middleware === null) {
             throw new \Exception('Aucun middleware n\'a intercepté cette requête');
-        } elseif (is_callable($middleware)) {
+        }
+
+        if (is_callable($middleware)) {
             return call_user_func_array($middleware, [$request, [$this, 'process']]);
-        } elseif ($middleware instanceof MiddlewareInterface) {
+        }
+
+        if ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }
     }
 
     public function run(ServerRequestInterface $request): ResponseInterface
     {
-        foreach ($this->cores as $core) {
-            $this->getContainer()->get($core);
+        foreach ($this->bundles as $bundle) {
+            $this->getContainer()->get($bundle);
         }
-        return $this->process($request);
+
+        try {
+            return $this->process($request);
+        } catch (\Exception $e) {
+        }
     }
 
-    /**
-     * @return ContainerInterface
-     */
-    private function getContainer(): ContainerInterface
+    public function getContainer(): ContainerInterface
     {
         if ($this->container === null) {
             $builder = new ContainerBuilder();
             $builder->addDefinitions($this->definition);
-            foreach ($this->cores as $core) {
-                if ($core::DEFINITIONS) {
-                    $builder->addDefinitions($core::DEFINITIONS);
+            foreach ($this->bundles as $bundle) {
+                if ($bundle::DEFINITIONS) {
+                    $builder->addDefinitions($bundle::DEFINITIONS);
                 }
             }
             $this->container = $builder->build();
         }
+
         return $this->container;
     }
 
-    /**
-     * @return object
-     */
     private function getMiddleware()
     {
         if (array_key_exists($this->index, $this->middlewares)) {
-            $middleware = $this->container->get($this->middlewares[$this->index]);
-            $this->index++;
+            if (is_string($this->middlewares[$this->index])) {
+                $middleware = $this->container->get($this->middlewares[$this->index]);
+            } else {
+                $middleware = $this->middlewares[$this->index];
+            }
+            ++$this->index;
+
             return $middleware;
         }
+
         return null;
     }
-
-
 }

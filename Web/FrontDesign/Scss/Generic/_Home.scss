@@ -1,0 +1,292 @@
+._slideHome {
+  height: 200px;
+  @media only screen and (min-width: 992px) {
+    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.4) 40%, transparent), url(/Web/FrontDesign/Images/9lEh53i.jpg);
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.4) 40%, transparent), url(../Images/Slides/9lEh53i.jpg);
+  }
+}
+._slideHome-Content {
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    color: #fff;
+  }
+  p {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: #fff;
+    @media only screen and (min-width: 768px) {
+      width: calc(100% / 2);
+    }
+  }
+}
+
+
+/* Les formulaires */
+._formTop > * {
+  outline: 0;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 100%;
+  vertical-align: baseline;
+  line-height: normal;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+._formTop ._width-20 {width: 20%;position: relative;float: right;display: inline-block;}
+._fieldTop {
+  position: relative;
+  width: 100%;
+  clear: both;
+  float: left;
+  margin-bottom: 20px;
+}
+/* Input */
+/* -- */
+input {
+
+}
+input:hover, input:focus {
+  outline: none;
+  border: 0;
+}
+input, select, textarea, optgroup {
+  outline: 0;
+  height: 35px;
+  line-height: 32px;
+  font-size: .875rem;
+  padding: 0 6px;
+  transition: background .2s;
+  border-radius: 0;
+  box-sizing: border-box;
+  box-shadow: none;
+  border: 1px solid #bebebe;
+  background: #fff;
+  font-size: 100%;
+  margin: 0;
+  overflow: visible;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+._formTop label {
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+._formTop input::-webkit-input-placeholder {color: #999;}
+._formTop input:focus::-webkit-input-placeholder {color: #ccc;}
+/*-- Firefox 19 down --*/
+._formTop input:-moz-placeholder {color: #999;}
+._formTop input:focus:-moz-placeholder {color: #ccc;}
+/*-- Firefox 19 up --*/
+._formTop input::-moz-placeholder {color: #999;}
+._formTop input:focus::-moz-placeholder {color: #ccc;}
+/*-- IE 10+ --*/
+._formTop input:-ms-input-placeholder {color: #999;}
+._formTop input:focus:-ms-input-placeholder {color: #ccc;}
+/*-- IE 9 --*/
+._formTop .ie9-placeholder {color: #999 !important;}
+._formTop .ie9-placeholder:focus {color: #ccc !important;}
+input:focus ~ ._tooltip {
+  opacity: 1;
+  visibility: visible;
+  z-index: 9999;
+}
+input:required:valid ~ ._tooltip {
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
+}
+/* All */
+._fieldTop input {
+  padding: 12px 20px 10px 50px;
+  width: 100%;
+  float: left;
+  color: #333;
+  font-size: 12px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: solid 1px #ddd;
+  margin-top: 15px;
+}
+._fieldTop > input:hover,
+._fieldTop > input:focus {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: solid 1px #333;
+  outline: none;
+}
+._fieldTop input:hover ~ i._icon,
+._fieldTop input:focus ~ i._icon {
+  outline: none;
+  background: transparent;
+}
+._fieldTop input:required {
+  background: #fff url(../Images/Field/required.png) no-repeat 100% 11px;
+  outline: none;
+  box-shadow: none;
+}
+._fieldTop input:hover:invalid {
+  background: #fff url(../../Images/Field/focused.png) no-repeat 100% 11px;
+  outline: none;
+  box-shadow: none;
+}
+._fieldTop input:required:valid {
+  background: #fff url(../../Images/Field/valid.png) no-repeat 100% 11px;
+  outline: none;
+  box-shadow: none;
+}
+._fieldTop input:focus:invalid {
+  background: #fff url(../../Images/Field/invalid.png) no-repeat 100% 11px;
+  outline: none;
+  box-shadow: none;
+}
+/* Icons */
+._fieldTop i._icon {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  color: #333;
+  background: transparent;
+  font-size: 25px;
+  text-align: center;
+  width: 38px;
+  height: 100%;
+  font: normal normal normal 18px/2.2 FontAwesome;
+}
+/* Submit */
+._formTop input._sendForm {
+  padding: 0;
+  border: #e1e1e1;
+  display: inline-block;
+  position: relative;
+  margin: 0.4em;
+  cursor: pointer;
+  background: #e1e1e1;
+  color: #333;
+  z-index: 0;
+  transition: background 0.5s cubic-bezier(0.4, 0.93, 0.61, 0.15);
+}
+._formTop input._sendForm:hover,
+._formTop input._sendForm:focus {
+  background: #a94545;
+  color: #fff;
+}
+/* Checkboxs */
+input[type="checkbox"], input[type="radio"] {
+  display: inline-block;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  border: 0;
+}
+input[type="checkbox"] {
+  position: absolute;
+  left: -9999px;
+}
+@media only screen and (max-width: 576px) {._slideCheck {position: absolute !important;top: 0;}}
+._slideCheck {
+  height: 26px;
+  line-height: 26px;
+  background: #f0f0f0;
+  position: relative;
+  float: left;
+}
+._slideCheck:after,
+._slideCheck:before {
+  font-size: 10px;
+  text-align: center;
+  position: absolute;
+  z-index: 0;
+  width: 50%;
+  text-transform: uppercase;
+}
+._slideCheck:before {
+  content: 'Oui';
+  left: 0;
+  color: #222;
+  top: 0;
+}
+._slideCheck:after {
+  content: 'Non';
+  right: 0;
+  color: #999;
+  top: 0;
+}
+._slideCheck input[type=checkbox]:checked + label {
+  left: 50%;
+  background: #333;
+}
+._formTop ._slideCheck label {
+  display: block;
+  width: 50%;
+  height: 26px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #A94545;
+  content: "";
+}
+@media screen and (max-width:480px) {._slideCheck {clear: both;height: 30px;line-height: 30px;}}
+
+/* Tooltips */
+span._tooltip {
+  width: auto;
+  height: auto;
+  white-space: nowrap;
+  padding: 10px;
+  font-size: 10px;
+  text-align: center;
+  color: #fff;
+  background: #333;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
+  animation: dropdownOpen 0.5s ease;
+}
+span._tooltip._tooltipDirection__Right {
+  right: -30px;
+  bottom: 36px;
+  background: #fff;
+  color: #222;
+}
+span._tooltip._tooltipDirection__Left {
+  left: 20px;
+  top: -44px;
+}
+span._tooltip._tooltipDirection__RightBottom {
+  right: -30px;
+  bottom: 36px;
+  background: #fff;
+  color: #222;
+}
+span._tooltip:before {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 6px solid rgba(51,51,51,1);
+}
+span._tooltip._tooltipDirection__Right:before {
+  right: 30px;
+  margin-left: -10px;
+}
+span._tooltip._tooltipDirection__Right:before {
+  border-top: 6px solid rgba(255,255,255,1);
+}
+span._tooltip._tooltipDirection__Left:before {
+  left: 20px;
+  margin-right: -10px;
+}
+
